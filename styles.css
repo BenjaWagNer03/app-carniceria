@@ -145,6 +145,9 @@ h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 1rem; }
 .footer__inner { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; }
 .footer .logo { color: #fff; font-size: 1.25rem; }
 .footer a { color: #f0c9a8; }
+.social { display: flex; gap: .75rem; }
+.social a { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.08); transition: background .2s; }
+.social a:hover { background: var(--red); color: #fff; }
 
 /* Redes sociales */
 .socials { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
