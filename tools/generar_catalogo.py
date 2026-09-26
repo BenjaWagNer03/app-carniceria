@@ -12,7 +12,7 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import cm
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
-NOMBRE = "Carnicería El Buen Corte"
+NOMBRE = "Carnicería Buena Carne"
 DATOS = "Av. Siempre Viva 742, Ciudad · Tel/WhatsApp: +54 9 11 0000-0000 · contacto@elbuencorte.com"
 
 # (producto, descripción, unidad)
