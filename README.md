@@ -23,7 +23,7 @@ Los datos actuales son de ejemplo. Buscá y reemplazá:
 
 | Qué | Dónde |
 | --- | --- |
-| Nombre (`El Buen Corte`) | `index.html`, `tools/generar_catalogo.py` |
+| Nombre (`Buena Carne`) | `index.html`, `tools/generar_catalogo.py` |
 | Dirección, horarios, teléfono, email | sección `#ubicacion` y footer de `index.html` |
 | Número de WhatsApp (`5491100000000`) | enlace `wa.me` al final de `index.html` |
 | Mapa | `src` del `iframe` en `#ubicacion`: cambiá `q=...` por tu dirección |
