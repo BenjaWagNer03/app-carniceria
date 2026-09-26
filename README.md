@@ -1,56 +1,56 @@
-# Landing page – Carnicería
+# Carnicería Buena Carne – Landing page
 
 Sitio estático (HTML + CSS + JS, sin dependencias) con:
 
 - **Quiénes somos**
-- **Catálogo** de productos + descarga del catálogo en PDF (`catalogo.pdf`)
-- **Ubicación** con mapa, horarios y datos de contacto
-- **Formulario de contacto** para clientes, proveedores y personas que quieran trabajar
-- Botón flotante de **WhatsApp**
+- **Productos** y descarga del catálogo en PDF (`catalogo.pdf`, solo nombres, sin precios)
+- **Ubicación** con mapa (14 Norte con San Antonio 1291, Viña del Mar) y redes sociales
+- **Formulario de contacto**: nombre, teléfono y/o email, y categoría
+  (quiere **comprar**, **vendernos** o **trabajar** con nosotros). Los datos se guardan en una planilla de Google.
 
 ## Ver el sitio
 
-Abrí `index.html` en el navegador, o servilo localmente:
+Abre `index.html` en el navegador, o sírvelo localmente:
 
 ```bash
 python3 -m http.server 8000
 # http://localhost:8000
 ```
 
-## Qué personalizar
+## Recibir los contactos en Google Sheets
 
-Los datos actuales son de ejemplo. Buscá y reemplazá:
+Se hace una sola vez (unos 5 minutos):
 
-| Qué | Dónde |
-| --- | --- |
-| Nombre (`El Buen Corte`) | `index.html`, `tools/generar_catalogo.py` |
-| Dirección, horarios, teléfono, email | sección `#ubicacion` y footer de `index.html` |
-| Número de WhatsApp (`5491100000000`) | enlace `wa.me` al final de `index.html` |
-| Mapa | `src` del `iframe` en `#ubicacion`: cambiá `q=...` por tu dirección |
-| Texto "Quiénes somos" | sección `#nosotros` |
-| Email que recibe los contactos | `CONTACT_EMAIL` en `script.js` |
+1. Crea una planilla nueva en [sheets.google.com](https://sheets.google.com) (por ejemplo "Contactos web Buena Carne").
+2. En la planilla, ve a **Extensiones → Apps Script**.
+3. Borra lo que aparece y pega el contenido de `tools/google-apps-script.gs`. Guarda (ícono de disquete).
+4. Toca **Implementar → Nueva implementación**.
+   - En el engranaje, elige el tipo **Aplicación web**.
+   - **Ejecutar como:** Yo.
+   - **Quién tiene acceso:** Cualquier usuario.
+   - Toca **Implementar** y autoriza los permisos con tu cuenta de Google
+     (si aparece "Google no verificó esta app", toca *Configuración avanzada → Ir a ... (no seguro)*: es tu propio script).
+5. Copia la **URL de la aplicación web** (termina en `/exec`).
+6. Pégala en `SHEETS_ENDPOINT` al inicio de `script.js`:
+   ```js
+   const SHEETS_ENDPOINT = "https://script.google.com/macros/s/XXXXXXXX/exec";
+   ```
 
-## Recibir los mensajes del formulario
+Cada contacto aparecerá como una fila en la hoja **Contactos** con: Fecha, Categoría, Nombre, Teléfono y Email.
+Puedes filtrar por la columna *Categoría* para ver por separado clientes, proveedores y postulantes.
 
-Por defecto el formulario abre el programa de correo del visitante con el
-mensaje armado. Para recibirlos directamente (recomendado):
-
-1. Creá una cuenta gratuita en [Formspree](https://formspree.io).
-2. Creá un formulario y copiá la URL (`https://formspree.io/f/xxxxxx`).
-3. Pegala en `FORM_ENDPOINT` dentro de `script.js`.
+> Si más adelante cambias el script, usa **Implementar → Administrar implementaciones → Editar → Nueva versión**
+> para mantener la misma URL.
 
 ## Actualizar el catálogo PDF
 
-Editá la lista `CATALOGO` en `tools/generar_catalogo.py` y ejecutá:
+Edita la lista `CATALOGO` en `tools/generar_catalogo.py` y ejecuta:
 
 ```bash
 pip install reportlab
 python3 tools/generar_catalogo.py
 ```
 
-También podés reemplazar `catalogo.pdf` por tu propio PDF con el mismo nombre.
-
 ## Publicar
 
-Al ser un sitio estático se puede publicar gratis en GitHub Pages, Netlify o Vercel.
-En GitHub Pages: *Settings → Pages → Deploy from a branch* y elegí la rama.
+Al ser un sitio estático se puede publicar gratis en Netlify, Vercel o GitHub Pages (este último requiere repositorio público).

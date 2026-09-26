@@ -135,6 +135,7 @@ h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 1rem; }
 .chip span { padding: .5rem 1rem; border: 1px solid var(--border); border-radius: 999px; transition: .2s; }
 .chip input:checked + span { background: var(--red); color: #fff; border-color: var(--red); }
 .chip input:focus-visible + span { outline: 2px solid var(--dark); outline-offset: 2px; }
+.form__hint { font-size: .85rem; color: var(--muted); margin-top: -.5rem; }
 .form__status { font-size: .95rem; min-height: 1.4em; }
 .form__status.ok { color: #1c7a3a; }
 .form__status.error { color: var(--red); }
@@ -145,14 +146,11 @@ h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 1rem; }
 .footer .logo { color: #fff; font-size: 1.25rem; }
 .footer a { color: #f0c9a8; }
 
-/* WhatsApp flotante */
-.whatsapp {
-  position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 60;
-  width: 56px; height: 56px; border-radius: 50%;
-  background: #25d366; color: #fff; display: grid; place-items: center;
-  box-shadow: 0 6px 18px rgba(0,0,0,.25); transition: transform .2s;
-}
-.whatsapp:hover { transform: scale(1.08); }
+/* Redes sociales */
+.socials { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+.socials a { display: inline-flex; align-items: center; gap: .4rem; text-decoration: none; font-weight: 500; }
+.socials svg { flex-shrink: 0; }
+.location__info .btn { margin-top: 1.75rem; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {

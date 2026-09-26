@@ -1,12 +1,7 @@
 // ================== CONFIGURACIÓN ==================
-// Para recibir los mensajes del formulario en tu email:
-// 1. Creá una cuenta gratis en https://formspree.io
-// 2. Creá un formulario y copiá su URL (ej: https://formspree.io/f/abcdwxyz)
-// 3. Pegala abajo en FORM_ENDPOINT.
-// Si queda vacío, el formulario abre el programa de correo del visitante
-// con el mensaje ya armado y dirigido a CONTACT_EMAIL.
-const FORM_ENDPOINT = "";
-const CONTACT_EMAIL = "contacto@elbuencorte.com";
+// URL de la aplicación web de Google Apps Script que guarda los contactos
+// en la planilla de Google. Ver README.md, sección "Recibir los contactos".
+const SHEETS_ENDPOINT = "";
 // ===================================================
 
 document.getElementById("year").textContent = new Date().getFullYear();
@@ -25,26 +20,9 @@ nav.querySelectorAll("a").forEach((a) =>
   })
 );
 
-// Formulario: campos según el tipo de contacto
+// Formulario de contacto
 const form = document.getElementById("contact-form");
 const statusEl = document.getElementById("form-status");
-const mensajeLabel = document.getElementById("mensaje-label");
-const placeholders = {
-  Cliente: "Contanos qué necesitás: pedidos, cantidades, precios mayoristas…",
-  Proveedor: "Contanos qué productos ofrecés, zona de entrega y condiciones…",
-  "Quiero trabajar": "Contanos sobre tu experiencia y disponibilidad horaria…",
-};
-
-function updateFields() {
-  const tipo = form.tipo.value;
-  form.querySelectorAll("[data-show-for]").forEach((el) => {
-    el.classList.toggle("hidden", !el.dataset.showFor.includes(tipo));
-  });
-  form.mensaje.placeholder = placeholders[tipo];
-  mensajeLabel.textContent = tipo === "Quiero trabajar" ? "Sobre vos *" : "Mensaje *";
-}
-form.querySelectorAll('input[name="tipo"]').forEach((r) => r.addEventListener("change", updateFields));
-updateFields();
 
 function setStatus(text, type) {
   statusEl.textContent = text;
@@ -52,36 +30,34 @@ function setStatus(text, type) {
 }
 
 function validate() {
-  let ok = true;
-  form.querySelectorAll("[required]").forEach((field) => {
-    const valid = field.checkValidity() && field.value.trim() !== "";
-    field.classList.toggle("invalid", !valid);
-    if (!valid) ok = false;
-  });
-  return ok;
+  const { nombre, telefono, email } = form;
+  const nombreOk = nombre.value.trim() !== "";
+  const telOk = /^[+\d\s()-]{8,}$/.test(telefono.value.trim());
+  const emailOk = email.value.trim() !== "" && email.checkValidity();
+  const alguno = telOk || emailOk;
+
+  nombre.classList.toggle("invalid", !nombreOk);
+  telefono.classList.toggle("invalid", !alguno || (telefono.value.trim() !== "" && !telOk));
+  email.classList.toggle("invalid", !alguno || (email.value.trim() !== "" && !emailOk));
+
+  if (!nombreOk) return "Ingresa tu nombre.";
+  if (!alguno) return "Ingresa un teléfono o un email válido para poder contactarte.";
+  if (telefono.value.trim() && !telOk) return "Revisa el teléfono ingresado.";
+  if (email.value.trim() && !emailOk) return "Revisa el email ingresado.";
+  return "";
 }
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   if (form._gotcha.value) return; // bot
-  if (!validate()) {
-    setStatus("Revisá los campos marcados en rojo.", "error");
+
+  const error = validate();
+  if (error) {
+    setStatus(error, "error");
     return;
   }
-
-  const data = Object.fromEntries(new FormData(form));
-  delete data._gotcha;
-  // Eliminar campos que no corresponden al tipo elegido
-  form.querySelectorAll("[data-show-for].hidden input, [data-show-for].hidden select").forEach((f) => delete data[f.name]);
-
-  if (!FORM_ENDPOINT) {
-    const subject = `[Web] ${data.tipo} - ${data.nombre}`;
-    const body = Object.entries(data)
-      .filter(([, v]) => v)
-      .map(([k, v]) => `${k.charAt(0).toUpperCase() + k.slice(1)}: ${v}`)
-      .join("\n");
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setStatus("Se abrió tu programa de correo para enviar el mensaje.", "ok");
+  if (!SHEETS_ENDPOINT) {
+    setStatus("El formulario todavía no está configurado. Escríbenos por Instagram @buenacarne__.", "error");
     return;
   }
 
@@ -89,17 +65,14 @@ form.addEventListener("submit", async (e) => {
   btn.disabled = true;
   setStatus("Enviando…");
   try {
-    const res = await fetch(FORM_ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ ...data, _subject: `[Web] ${data.tipo} - ${data.nombre}` }),
-    });
-    if (!res.ok) throw new Error(res.status);
+    const data = new URLSearchParams(new FormData(form));
+    data.delete("_gotcha");
+    // Apps Script no devuelve cabeceras CORS legibles: se envía en modo no-cors.
+    await fetch(SHEETS_ENDPOINT, { method: "POST", mode: "no-cors", body: data });
     form.reset();
-    updateFields();
-    setStatus("¡Gracias! Recibimos tu mensaje y te vamos a contactar pronto.", "ok");
+    setStatus("¡Gracias! Recibimos tus datos y te contactaremos pronto.", "ok");
   } catch {
-    setStatus(`No pudimos enviar el mensaje. Probá de nuevo o escribinos a ${CONTACT_EMAIL}.`, "error");
+    setStatus("No pudimos enviar tus datos. Inténtalo de nuevo o escríbenos por Instagram @buenacarne__.", "error");
   } finally {
     btn.disabled = false;
   }
