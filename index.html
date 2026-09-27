@@ -29,6 +29,8 @@
       <nav class="nav" id="nav">
         <a href="#nosotros">Nosotros</a>
         <a href="#productos">Productos</a>
+        <a href="#ofertas">Ofertas</a>
+        <a href="#preguntas">Preguntas</a>
         <a href="#ubicacion">Ubicación</a>
         <a href="#contacto" class="btn btn--small">Contacto</a>
       </nav>
@@ -102,6 +104,118 @@
     </div>
   </section>
 
+  <!-- ===== Ofertas ===== -->
+  <section class="section section--offers" id="ofertas">
+    <div class="container">
+      <!-- Se muestra solo si hay ofertas cargadas en OFERTAS (script.js) -->
+      <div class="offers hidden" id="offers">
+        <p class="section__eyebrow">Ofertas</p>
+        <h2>Ofertas de la semana</h2>
+        <div class="offers__grid" id="offers-grid"></div>
+      </div>
+
+      <div class="subscribe">
+        <div class="subscribe__text">
+          <p class="section__eyebrow">Ofertas</p>
+          <h2>Quiero enterarme de todas las ofertas</h2>
+          <p>Déjanos tu nombre, correo y celular, y te avisaremos de nuestras ofertas y promociones.</p>
+        </div>
+
+        <form class="form" id="offers-form" novalidate>
+          <input type="hidden" name="formulario" value="ofertas" />
+          <label>Nombre *
+            <input type="text" name="nombre" required autocomplete="name" maxlength="100" />
+          </label>
+          <label>Correo *
+            <input type="email" name="email" required autocomplete="email" maxlength="100" />
+          </label>
+          <label>Celular *
+            <input type="tel" name="celular" required autocomplete="tel" placeholder="+56 9 1234 5678" maxlength="20" />
+          </label>
+          <label class="check">
+            <input type="checkbox" name="acepta" value="Sí" required />
+            <span>Acepto recibir ofertas de Carnicería Buena Carne por correo y celular.</span>
+          </label>
+
+          <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" />
+
+          <button type="submit" class="btn btn--block">Quiero recibir ofertas</button>
+          <p class="form__status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Instagram ===== -->
+  <section class="section" id="instagram">
+    <div class="container">
+      <div class="section__head">
+        <div>
+          <p class="section__eyebrow">Instagram</p>
+          <h2>Síguenos en @buenacarne__</h2>
+        </div>
+        <a class="btn" href="https://www.instagram.com/buenacarne__/" target="_blank" rel="noopener">Ver Instagram</a>
+      </div>
+
+      <!-- Publicaciones: se cargan desde INSTAGRAM_POSTS (script.js) -->
+      <div class="ig-grid hidden" id="ig-grid"></div>
+
+      <div class="ig-cta" id="ig-cta">
+        <svg width="48" height="48" aria-hidden="true"><use href="#i-instagram" /></svg>
+        <p>Mira nuestros cortes, ofertas y novedades en nuestras redes sociales.</p>
+        <div class="ig-cta__links">
+          <a class="btn" href="https://www.instagram.com/buenacarne__/" target="_blank" rel="noopener">Instagram @buenacarne__</a>
+          <a class="btn btn--outline" href="https://www.tiktok.com/@buena.carne" target="_blank" rel="noopener">TikTok @buena.carne</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Preguntas frecuentes ===== -->
+  <section class="section section--light" id="preguntas">
+    <div class="container faq">
+      <div>
+        <p class="section__eyebrow">Preguntas frecuentes</p>
+        <h2>¿Tienes dudas?</h2>
+        <p>Aquí respondemos las consultas más comunes. Si no encuentras lo que buscas, <a href="#contacto">déjanos tu contacto</a> o escríbenos por <a href="https://www.instagram.com/buenacarne__/" target="_blank" rel="noopener">Instagram</a>.</p>
+      </div>
+      <div class="faq__list">
+        <details>
+          <summary>¿Dónde están ubicados?</summary>
+          <p>Estamos en 14 Norte con San Antonio 1291, Viña del Mar, desde 2016. <a href="#ubicacion">Ver mapa</a>.</p>
+        </details>
+        <details>
+          <summary>¿Sus carnes son nacionales o importadas?</summary>
+          <p>Trabajamos con ambas: tenemos cortes nacionales e importados de vacuno, cerdo y pollo.</p>
+        </details>
+        <details>
+          <summary>¿Venden por mayor o por caja?</summary>
+          <p>Sí. Vendemos por kilo, por pieza y por caja (por ejemplo costillar, pechuga y trutro). Si tienes un restaurante o negocio, déjanos tus datos en el <a href="#contacto">formulario de contacto</a> eligiendo "Quiero comprar".</p>
+        </details>
+        <details>
+          <summary>¿Qué productos tienen?</summary>
+          <p>Además de carnes, tenemos cecinas, lácteos, huevos, congelados, almacén y bebidas. Puedes <a href="catalogo.pdf" download>descargar el catálogo completo</a>.</p>
+        </details>
+        <details>
+          <summary>¿Dónde veo los precios?</summary>
+          <p>El catálogo muestra nuestros productos, pero no incluye precios porque pueden variar. Consúltalos en el local o escríbenos por Instagram.</p>
+        </details>
+        <details>
+          <summary>¿Cómo me entero de las ofertas?</summary>
+          <p>Inscríbete en la sección <a href="#ofertas">"Quiero enterarme de todas las ofertas"</a> y síguenos en Instagram y TikTok.</p>
+        </details>
+        <details>
+          <summary>Soy proveedor, ¿cómo les ofrezco mis productos?</summary>
+          <p>Déjanos tus datos en el <a href="#contacto">formulario de contacto</a> eligiendo "Quiero venderles" y te contactaremos.</p>
+        </details>
+        <details>
+          <summary>¿Cómo postulo para trabajar con ustedes?</summary>
+          <p>Déjanos tus datos en el <a href="#contacto">formulario de contacto</a> eligiendo "Quiero trabajar con ustedes".</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== Ubicación ===== -->
   <section class="section" id="ubicacion">
     <div class="container location">
@@ -145,6 +259,7 @@
       </div>
 
       <form class="form" id="contact-form" novalidate>
+        <input type="hidden" name="formulario" value="contacto" />
         <fieldset class="form__types">
           <legend>¿Qué te interesa? *</legend>
           <label class="chip"><input type="radio" name="categoria" value="Comprar" checked /><span>Quiero comprar</span></label>
@@ -170,7 +285,7 @@
         <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" />
 
         <button type="submit" class="btn btn--block">Enviar</button>
-        <p class="form__status" id="form-status" role="status" aria-live="polite"></p>
+        <p class="form__status" role="status" aria-live="polite"></p>
       </form>
     </div>
   </section>
