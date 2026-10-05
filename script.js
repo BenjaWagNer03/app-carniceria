@@ -134,10 +134,6 @@ document.querySelectorAll("form[id$='-form']").forEach((form) => {
       setStatus(error, "error");
       return;
     }
-    if (!SHEETS_ENDPOINT) {
-      setStatus("El formulario todavía no está configurado. Escríbenos por Instagram @buenacarne__.", "error");
-      return;
-    }
 
     const btn = form.querySelector("button[type=submit]");
     btn.disabled = true;
@@ -145,8 +141,18 @@ document.querySelectorAll("form[id$='-form']").forEach((form) => {
     try {
       const data = new URLSearchParams(new FormData(form));
       data.delete("_gotcha");
-      // Apps Script no devuelve cabeceras CORS legibles: se envía en modo no-cors.
-      await fetch(SHEETS_ENDPOINT, { method: "POST", mode: "no-cors", body: data });
+      // Netlify Forms: los datos quedan en el panel de Netlify (sección Forms).
+      data.set("form-name", form.getAttribute("name"));
+      const res = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: data.toString(),
+      });
+      if (!res.ok) throw new Error("netlify " + res.status);
+      // Opcional: copia en Google Sheets si SHEETS_ENDPOINT está configurado.
+      if (SHEETS_ENDPOINT) {
+        fetch(SHEETS_ENDPOINT, { method: "POST", mode: "no-cors", body: data }).catch(() => {});
+      }
       form.reset();
       setStatus(mensajesOk[tipo], "ok");
     } catch {
