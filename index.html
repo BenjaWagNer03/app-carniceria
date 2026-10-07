@@ -106,7 +106,7 @@
           <p>Déjanos tu nombre, correo y celular, y te avisaremos de nuestras ofertas y promociones.</p>
         </div>
 
-        <form class="form" id="offers-form" novalidate>
+        <form class="form" id="offers-form" name="ofertas" method="POST" data-netlify="true" netlify-honeypot="_gotcha" novalidate>
           <input type="hidden" name="formulario" value="ofertas" />
           <label>Nombre *
             <input type="text" name="nombre" required autocomplete="name" maxlength="100" />
@@ -263,7 +263,7 @@
         </ul>
       </div>
 
-      <form class="form" id="contact-form" novalidate>
+      <form class="form" id="contact-form" name="contacto" method="POST" data-netlify="true" netlify-honeypot="_gotcha" novalidate>
         <input type="hidden" name="formulario" value="contacto" />
         <fieldset class="form__types">
           <legend>¿Qué te interesa? *</legend>
