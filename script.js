@@ -156,7 +156,7 @@ document.querySelectorAll("form[id$='-form']").forEach((form) => {
       form.reset();
       setStatus(mensajesOk[tipo], "ok");
     } catch {
-      setStatus("No pudimos enviar tus datos. Inténtalo de nuevo o escríbenos por Instagram @buenacarne__.", "error");
+      setStatus("No pudimos enviar tus datos. Inténtalo de nuevo o escríbenos a contacto@mayoristabuenacarne.cl o por Instagram @buenacarne__.", "error");
     } finally {
       btn.disabled = false;
     }
